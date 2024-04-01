@@ -33,6 +33,8 @@ import {
     const [video, setVideo] = useState(null);
     const [isAttachment, setIsAttachment] = useState(false);
     const [attachment, setAttachment] = useState(null);
+    const [isAudio, setIsAudio] = useState(false);
+    const [audio, setAudio] = useState(null);
     const [post, setPost] = useState("");
     const { palette } = useTheme();
     const { _id } = useSelector((state) => state.user);
@@ -57,6 +59,10 @@ import {
         formData.append("attachment", attachment);
         formData.append("attachmentPath", attachment.name);
       }      
+      if (audio) {
+        formData.append("audio", audio);
+        formData.append("audioPath", audio.name);
+      }
       const response = await fetch(`http://localhost:3001/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
@@ -221,6 +227,51 @@ import {
           </Box>
         )}
 
+        {isAudio && (
+          <Box
+            border={`1px solid ${medium}`}
+            borderRadius="5px"
+            mt="1rem"
+            p="1rem"
+          >
+            <Dropzone
+              acceptedFiles=".mp3,.wav,.ogg"
+              multiple={false}
+              onDrop={(acceptedFiles) => setAudio(acceptedFiles[0])}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <FlexBetween>
+                  <Box
+                    {...getRootProps()}
+                    border={`2px dashed ${palette.primary.main}`}
+                    p="1rem"
+                    width="100%"
+                    sx={{ "&:hover": { cursor: "pointer" } }}
+                  >
+                    <input {...getInputProps()} />
+                    {!audio ? (
+                      <p>Add Audio Here</p>
+                    ) : (
+                      <FlexBetween>
+                        <Typography>{audio.name}</Typography>
+                        <EditOutlined />
+                      </FlexBetween>
+                    )}
+                  </Box>
+                  {audio && (
+                    <IconButton
+                      onClick={() => setAudio(null)}
+                      sx={{ width: "15%" }}
+                    >
+                      <DeleteOutlined />
+                    </IconButton>
+                  )}
+                </FlexBetween>
+              )}
+            </Dropzone>
+          </Box>
+        )}
+
         <Divider sx={{ margin: "1.25rem 0" }} />
   
         <FlexBetween>
@@ -254,13 +305,18 @@ import {
             </Typography>
           </FlexBetween>
 
+          <FlexBetween gap="0.25rem" onClick={() => setIsAudio(!isAudio)}>
+            <MicOutlined sx={{ color: mediumMain }} />
+            <Typography
+              color={mediumMain}
+              sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+            >
+              Audio
+            </Typography>
+          </FlexBetween>
           {isNonMobileScreens ? (
             <>
-  
-              <FlexBetween gap="0.25rem">
-                <MicOutlined sx={{ color: mediumMain }} />
-                <Typography color={mediumMain}>Audio</Typography>
-              </FlexBetween>
+
             </>
           ) : (
             <FlexBetween gap="0.25rem">

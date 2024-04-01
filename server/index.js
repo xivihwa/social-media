@@ -54,7 +54,8 @@ app.post("/auth/register", upload.single("picture"), register);
 app.post("/posts", verifyToken, upload.fields([
   { name: 'picture', maxCount: 1 }, 
   { name: 'video', maxCount: 1 }, 
-  { name: 'attachment', maxCount: 1 }
+  { name: 'attachment', maxCount: 1 },
+  { name: 'audio', maxCount: 1 }
 ]), createPost);
 
 // ROUTES

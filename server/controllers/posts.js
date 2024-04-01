@@ -4,7 +4,7 @@ import User from "../models/User.js";
 // CREATE
 export const createPost = async (req, res) => {
   try {
-    const { userId, description, picturePath, videoPath, attachmentPath } = req.body;
+    const { userId, description, picturePath, videoPath, attachmentPath, audioPath } = req.body;
     const user = await User.findById(userId);
     
     let newPostData = {
@@ -30,6 +30,9 @@ export const createPost = async (req, res) => {
       newPostData.attachmentPath = attachmentPath;
     }
 
+    if (audioPath) {
+      newPostData.audioPath = audioPath;
+    }
     const newPost = new Post(newPostData);
     await newPost.save();
 

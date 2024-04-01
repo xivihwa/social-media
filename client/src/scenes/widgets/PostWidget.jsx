@@ -22,6 +22,7 @@ import {
     picturePath,
     videoPath,
     attachmentPath,
+    audioPath,
     userPicturePath,
     likes,
     comments,
@@ -94,6 +95,13 @@ import {
             >
               {attachmentPath.split("/").pop()}
             </a>
+          </Box>
+        )}
+        {audioPath && (
+          <Box>
+            <audio controls style={{ width: "100%" }}>
+              <source src={`http://localhost:3001/assets/${audioPath}`} type="audio/mp3" />
+            </audio>
           </Box>
         )}
         <FlexBetween mt="0.25rem">
