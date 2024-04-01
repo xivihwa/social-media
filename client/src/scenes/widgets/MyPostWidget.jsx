@@ -31,6 +31,8 @@ import {
     const [image, setImage] = useState(null);
     const [isVideo, setIsVideo] = useState(false);
     const [video, setVideo] = useState(null);
+    const [isAttachment, setIsAttachment] = useState(false);
+    const [attachment, setAttachment] = useState(null);
     const [post, setPost] = useState("");
     const { palette } = useTheme();
     const { _id } = useSelector((state) => state.user);
@@ -51,6 +53,10 @@ import {
         formData.append("video", video);
         formData.append("videoPath", video.name);
       }      
+      if (attachment) {
+        formData.append("attachment", attachment);
+        formData.append("attachmentPath", attachment.name);
+      }      
       const response = await fetch(`http://localhost:3001/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
@@ -60,6 +66,7 @@ import {
       dispatch(setPosts({ posts }));
       setImage(null);
       setVideo(null);
+      setAttachment(null);
       setPost("");
     };
   
@@ -169,6 +176,51 @@ import {
           </Box>
         )}
 
+        {isAttachment && (
+          <Box
+            border={`1px solid ${medium}`}
+            borderRadius="5px"
+            mt="1rem"
+            p="1rem"
+          >
+            <Dropzone
+              acceptedFiles=".docx,.pdf,.txt"
+              multiple={false}
+              onDrop={(acceptedFiles) => setAttachment(acceptedFiles[0])}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <FlexBetween>
+                  <Box
+                    {...getRootProps()}
+                    border={`2px dashed ${palette.primary.main}`}
+                    p="1rem"
+                    width="100%"
+                    sx={{ "&:hover": { cursor: "pointer" } }}
+                  >
+                    <input {...getInputProps()} />
+                    {!attachment ? (
+                      <p>Add Document Here</p>
+                    ) : (
+                      <FlexBetween>
+                        <Typography>{attachment.name}</Typography>
+                        <EditOutlined />
+                      </FlexBetween>
+                    )}
+                  </Box>
+                  {attachment && (
+                    <IconButton
+                      onClick={() => setAttachment(null)}
+                      sx={{ width: "15%" }}
+                    >
+                      <DeleteOutlined />
+                    </IconButton>
+                  )}
+                </FlexBetween>
+              )}
+            </Dropzone>
+          </Box>
+        )}
+
         <Divider sx={{ margin: "1.25rem 0" }} />
   
         <FlexBetween>
@@ -192,12 +244,18 @@ import {
             </Typography>
           </FlexBetween>
 
+          <FlexBetween gap="0.25rem" onClick={() => setIsAttachment(!isAttachment)}>
+            <AttachFileOutlined sx={{ color: mediumMain }} />
+            <Typography
+              color={mediumMain}
+              sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+            >
+              Attachment
+            </Typography>
+          </FlexBetween>
+
           {isNonMobileScreens ? (
-            <>  
-              <FlexBetween gap="0.25rem">
-                <AttachFileOutlined sx={{ color: mediumMain }} />
-                <Typography color={mediumMain}>Attachment</Typography>
-              </FlexBetween>
+            <>
   
               <FlexBetween gap="0.25rem">
                 <MicOutlined sx={{ color: mediumMain }} />

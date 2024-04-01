@@ -3,6 +3,7 @@ import {
     FavoriteBorderOutlined,
     FavoriteOutlined,
     ShareOutlined,
+    AttachmentOutlined,
   } from "@mui/icons-material";
   import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
   import FlexBetween from "components/FlexBetween";
@@ -20,6 +21,7 @@ import {
     location,
     picturePath,
     videoPath,
+    attachmentPath,
     userPicturePath,
     likes,
     comments,
@@ -77,6 +79,22 @@ import {
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
             src={`http://localhost:3001/assets/${videoPath}`} 
           />
+        )}
+        {attachmentPath && (
+          <Box
+            display="flex"
+            alignItems="center"
+            mt="0.75rem"
+          >
+            <AttachmentOutlined sx={{ marginRight: "0.5rem", transform: "rotate(270deg)" }} />
+            <a
+              href={`http://localhost:3001/assets/${attachmentPath}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {attachmentPath.split("/").pop()}
+            </a>
+          </Box>
         )}
         <FlexBetween mt="0.25rem">
           <FlexBetween gap="1rem">
