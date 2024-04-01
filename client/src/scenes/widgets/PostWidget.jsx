@@ -19,6 +19,7 @@ import {
     description,
     location,
     picturePath,
+    videoPath,
     userPicturePath,
     likes,
     comments,
@@ -66,6 +67,15 @@ import {
             alt="post"
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
             src={`http://localhost:3001/assets/${picturePath}`}
+          />
+        )}
+        {videoPath && (
+          <video
+            controls
+            width="100%"
+            height="auto"
+            style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+            src={`http://localhost:3001/assets/${videoPath}`} 
           />
         )}
         <FlexBetween mt="0.25rem">
