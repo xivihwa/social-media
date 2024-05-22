@@ -159,9 +159,9 @@ export const posts = [
       [userIds[4], true],
     ]),
     comments: [
-      "random comment",
-      "another random comment",
-      "yet another random comment",
+      { text: "random comment", userId: userIds[0], createdAt: new Date() },
+      { text: "another random comment", userId: userIds[2], createdAt: new Date() },
+      { text: "yet another random comment", userId: userIds[3], createdAt: new Date() },
     ],
   },
   {
@@ -181,10 +181,10 @@ export const posts = [
       [userIds[2], true],
     ]),
     comments: [
-      "one more random comment",
-      "and another random comment",
-      "no more random comments",
-      "I lied, one more random comment",
+      { text: "one more random comment", userId: userIds[7], createdAt: new Date() },
+      { text: "another random comment", userId: userIds[4], createdAt: new Date() },
+      { text: "no more random comments", userId: userIds[1], createdAt: new Date() },
+      { text: "I lied, one more random comment", userId: userIds[2], createdAt: new Date() },
     ],
   },
   {
@@ -204,11 +204,11 @@ export const posts = [
       [userIds[5], true],
     ]),
     comments: [
-      "one more random comment",
-      "I lied, one more random comment",
-      "I lied again, one more random comment",
-      "Why am I doing this?",
-      "I'm bored",
+      { text: "one more random comment", userId: userIds[1], createdAt: new Date() },
+      { text: "I lied, one more random comment", userId: userIds[6], createdAt: new Date() },
+      { text: "I lied again, one more random comment", userId: userIds[3], createdAt: new Date() },
+      { text: "Why am I doing this?", userId: userIds[5], createdAt: new Date() },
+      { text: "I'm bored", userId: userIds[2], createdAt: new Date() },
     ],
   },
   {
@@ -227,12 +227,12 @@ export const posts = [
       [userIds[3], true],
     ]),
     comments: [
-      "I lied again, one more random comment",
-      "Why am I doing this?",
-      "I'm bored",
-      "I'm still bored",
-      "All I want to do is play video games",
-      "I'm going to play video games",
+      { text: "I lied again, one more random comment", userId: userIds[1], createdAt: new Date() },
+      { text: "Why am I doing this?", userId: userIds[6], createdAt: new Date() },
+      { text: "I'm bored", userId: userIds[3], createdAt: new Date() },
+      { text: "I'm still bored", userId: userIds[2], createdAt: new Date() },
+      { text: "All I want to do is play video games", userId: userIds[4], createdAt: new Date() },
+      { text: "I'm going to play video games", userId: userIds[7], createdAt: new Date() },
     ],
   },
   {
@@ -252,11 +252,11 @@ export const posts = [
       [userIds[7], true],
     ]),
     comments: [
-      "I lied again, one more random comment",
-      "Why am I doing this?",
-      "Man I'm bored",
-      "What should I do?",
-      "I'm going to play video games",
+      { text: "I lied again, one more random comment", userId: userIds[1], createdAt: new Date() },
+      { text: "Why am I doing this?", userId: userIds[3], createdAt: new Date() },
+      { text: "Man I'm bored", userId: userIds[5], createdAt: new Date() },
+      { text: "What should I do?", userId: userIds[7], createdAt: new Date() },
+      { text: "I'm going to play video games",userId: userIds[4], createdAt: new Date() },
     ],
   },
   {
@@ -275,11 +275,11 @@ export const posts = [
     ]),
 
     comments: [
-      "Can I play video games now?",
-      "No let's actually study",
-      "Never mind, I'm going to play video games",
-      "Stop it.",
-      "Okay, stop it.",
+      { text: "Can I play video games now?", userId: userIds[3], createdAt: new Date() },
+      { text: "No let's actually study", userId: userIds[1], createdAt: new Date() },
+      { text: "Never mind, I'm going to play video games", userId: userIds[2], createdAt: new Date() },
+      { text: "Stop it.", userId: userIds[0], createdAt: new Date() },
+      { text: "Okay, stop it.", userId: userIds[6], createdAt: new Date() },
     ],
   },
 ];
