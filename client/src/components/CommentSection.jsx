@@ -15,6 +15,10 @@ const CommentSection = ({ postId, comments }) => {
   const primaryDark = palette.primary.dark;
 
   const handleCreateComment = async () => {
+    if (newComment.length > 200) {
+      alert("The comment is too long.");
+      return;
+    }
     const response = await fetch(`http://localhost:3001/posts/${postId}/comments`, {
       method: "POST",
       headers: {
@@ -47,7 +51,12 @@ const CommentSection = ({ postId, comments }) => {
             <Box key={comment._id} sx={{ mb: "0.5rem" }}>
               <Divider />
               <Box display="flex" alignItems="center" pl="1rem" mt="0.5rem">
-                <Typography sx={{ color: "neutral.main", flexGrow: 1 }}>
+                <Typography sx={{ 
+                  color: "neutral.main", 
+                  flexGrow: 1,
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-wrap",
+                  }}>
                   {comment.text}
                 </Typography>
                 {comment.userId === loggedInUserId && (
@@ -67,8 +76,13 @@ const CommentSection = ({ postId, comments }) => {
           <Box display="flex" alignItems="center" mt="0.5rem">
           <InputBase
             placeholder="Add a comment..."
-            onChange={(e) => setNewComment(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= 200) {
+                setNewComment(e.target.value);
+              }
+            }}
             value={newComment}
+            maxLength={200}
             sx={{
               width: "100%",
               backgroundColor: palette.neutral.light,
