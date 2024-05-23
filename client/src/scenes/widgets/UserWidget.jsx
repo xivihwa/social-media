@@ -75,7 +75,7 @@ import {
               <Typography color={medium}>{friends.length} friends</Typography>
             </Box>
           </FlexBetween>
-          <ManageAccountsOutlined />
+          {/* <ManageAccountsOutlined /> */}
         </FlexBetween>
   
         <Divider />
@@ -128,7 +128,7 @@ import {
                 <Typography color={medium}>Social Network</Typography>
               </Box>
             </FlexBetween>
-            <EditOutlined sx={{ color: main }} />
+            {/* <EditOutlined sx={{ color: main }} /> */}
           </FlexBetween>
   
           <FlexBetween gap="1rem">
@@ -141,7 +141,7 @@ import {
                 <Typography color={medium}>Network Platform</Typography>
               </Box>
             </FlexBetween>
-            <EditOutlined sx={{ color: main }} />
+            {/* <EditOutlined sx={{ color: main }} /> */}
           </FlexBetween>
         </Box>
       </WidgetWrapper>

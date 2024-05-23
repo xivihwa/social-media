@@ -5,7 +5,7 @@ import {
   ShareOutlined,
   AttachmentOutlined,
 } from "@mui/icons-material";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme, Modal, Button } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -29,6 +29,8 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -50,6 +52,17 @@ const PostWidget = ({
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+  };
+
+  const handleCopyLink = () => {
+    const link = `http://localhost:3001/posts/${postId}`;
+    navigator.clipboard.writeText(link).then(() => {
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+        setIsShareModalOpen(false);
+      }, 2000);
+    });
   };
 
   return (
@@ -126,7 +139,7 @@ const PostWidget = ({
           </FlexBetween>
         </FlexBetween>
 
-        <IconButton>
+        <IconButton onClick={() => setIsShareModalOpen(true)}>
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
@@ -135,6 +148,35 @@ const PostWidget = ({
           <CommentSection postId={postId} comments={comments} />
         </Box>
       )}
+      <Modal
+        open={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
+          boxShadow: 24,
+          p: 4,
+          borderRadius: '1rem',
+        }}>
+          <Typography variant="h6" component="h2">
+            Share this link
+          </Typography>
+          <Button onClick={handleCopyLink} sx={{ borderRadius: '1rem', mt: 2 }}>
+            Copy link
+          </Button>
+          {isCopied && (
+            <Typography variant="body2" color="primary" sx={{ mt: 2 }}>
+              Link copied!
+            </Typography>
+          )}
+        </Box>
+      </Modal>
     </WidgetWrapper>
   );
 };
