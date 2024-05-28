@@ -42,7 +42,7 @@ const PostWidget = ({
   const primary = palette.primary.main;
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
+    const response = await fetch(`https://social-media-server-flax.vercel.app/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ const PostWidget = ({
   };
 
   const handleCopyLink = () => {
-    const link = `http://localhost:3001/posts/${postId}`;
+    const link = `https://social-media-server-flax.vercel.app/posts/${postId}`;
     navigator.clipboard.writeText(link).then(() => {
       setIsCopied(true);
       setTimeout(() => {
@@ -83,7 +83,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${picturePath}`}
+          src={`https://social-media-server-flax.vercel.app/assets/${picturePath}`}
         />
       )}
       {videoPath && (
@@ -92,7 +92,7 @@ const PostWidget = ({
           width="100%"
           height="auto"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${videoPath}`} 
+          src={`https://social-media-server-flax.vercel.app/assets/${videoPath}`} 
         />
       )}
       {attachmentPath && (
@@ -103,7 +103,7 @@ const PostWidget = ({
         >
           <AttachmentOutlined sx={{ marginRight: "0.5rem", transform: "rotate(270deg)" }} />
           <a
-            href={`http://localhost:3001/assets/${attachmentPath}`}
+            href={`https://social-media-server-flax.vercel.app/assets/${attachmentPath}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -114,7 +114,7 @@ const PostWidget = ({
       {audioPath && (
         <Box>
           <audio controls style={{ width: "100%" }}>
-            <source src={`http://localhost:3001/assets/${audioPath}`} type="audio/mp3" />
+            <source src={`https://social-media-server-flax.vercel.app/assets/${audioPath}`} type="audio/mp3" />
           </audio>
         </Box>
       )}

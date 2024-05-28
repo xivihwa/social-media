@@ -16,7 +16,7 @@ const ProfilePage = () => {
   const isProfileOwner = useSelector((state) => state.user._id === userId);
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}`, {
+    const response = await fetch(`https://social-media-server-flax.vercel.app/users/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

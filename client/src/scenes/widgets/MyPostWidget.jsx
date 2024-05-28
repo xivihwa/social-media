@@ -63,7 +63,7 @@ import {
         formData.append("audio", audio);
         formData.append("audioPath", audio.name);
       }
-      const response = await fetch(`http://localhost:3001/posts`, {
+      const response = await fetch(`https://social-media-server-flax.vercel.app/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

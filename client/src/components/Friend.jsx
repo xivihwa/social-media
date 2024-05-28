@@ -26,7 +26,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
   
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:3001/users/${_id}/${friendId}`,
+      `https://social-media-server-flax.vercel.app/users/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {
@@ -41,7 +41,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
 
   const deletePost = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      const response = await fetch(`https://social-media-server-flax.vercel.app/posts/${postId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

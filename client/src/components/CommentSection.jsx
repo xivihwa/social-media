@@ -19,7 +19,7 @@ const CommentSection = ({ postId, comments }) => {
       alert("The comment is too long.");
       return;
     }
-    const response = await fetch(`http://localhost:3001/posts/${postId}/comments`, {
+    const response = await fetch(`https://social-media-server-flax.vercel.app/posts/${postId}/comments`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ const CommentSection = ({ postId, comments }) => {
   };
   
   const handleDeleteComment = async (commentId) => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/comments/${commentId}`, {
+    const response = await fetch(`https://social-media-server-flax.vercel.app/posts/${postId}/comments/${commentId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
