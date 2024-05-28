@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors(
   {
     origin: ["https://social-media-client-plum-nine.vercel.app"],
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "OPTIONS", "HEAD", "PUT", "DELETE", "PATCH"],
     credentials: true,
   }
 ));
