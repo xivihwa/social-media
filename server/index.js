@@ -15,6 +15,7 @@ import postRoutes from "./routes/posts.js";
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
+import fs from 'fs';
 import User from "./models/User.js";
 import Post from "./models/Post.js";
 import { users, posts } from "./data/index.js";
@@ -51,7 +52,22 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, 
+  limits: { fileSize: 50 * 1024 * 1024 },
+  fileFilter: function (req, file, cb) {
+    fs.access(`public/assets/${file.originalname}`, (err) => {
+      if (err) {
+        fs.writeFile(`public/assets/${file.originalname}`, '', (err) => {
+          if (err) {
+            console.error(err);
+            return cb(null, false);
+          }
+          return cb(null, true);
+        });
+      } else {
+        return cb(null, true);
+      }
+    });
+  },
 });
 
 
