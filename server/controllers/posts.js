@@ -4,7 +4,7 @@ import User from "../models/User.js";
 // CREATE
 export const createPost = async (req, res) => {
   try {
-    const { userId, description, picturePath, videoPath, attachmentPath, audioPath } = req.body;
+    const { userId, description } = req.body;
     const user = await User.findById(userId);
     
     let newPostData = {
@@ -18,20 +18,20 @@ export const createPost = async (req, res) => {
       comments: [],
     };
     
-    if (picturePath) {
-      newPostData.picturePath = picturePath;
+    if (req.files.picture) {
+      newPostData.picturePath = req.files.picture[0].path.replace('public/', '');
     }
     
-    if (videoPath) {
-      newPostData.videoPath = videoPath;
+    if (req.files.video) {
+      newPostData.videoPath = req.files.video[0].path.replace('public/', '');
     }
 
-    if (attachmentPath) {
-      newPostData.attachmentPath = attachmentPath;
+    if (req.files.attachment) {
+      newPostData.attachmentPath = req.files.attachment[0].path.replace('public/', '');
     }
 
-    if (audioPath) {
-      newPostData.audioPath = audioPath;
+    if (req.files.audio) {
+      newPostData.audioPath = req.files.audio[0].path.replace('public/', '');
     }
     const newPost = new Post(newPostData);
     await newPost.save();

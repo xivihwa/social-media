@@ -10,11 +10,12 @@ export const register = async (req, res) => {
       lastName,
       email,
       password,
-      picturePath,
       friends,
       location,
       occupation,
     } = req.body;
+
+    const picturePath = req.file ? req.file.path.replace('public/', '') : '';
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
