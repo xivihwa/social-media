@@ -88,8 +88,8 @@ app.use("/posts", postRoutes);
 // MONGOOSE SETUP
 mongoose
   .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   })
   .then(() => {
     console.log("MongoDB Connected");
