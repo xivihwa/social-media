@@ -53,12 +53,7 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     cb(null, true);
   },
-}).fields([
-  { name: 'picture', maxCount: 1 },
-  { name: 'video', maxCount: 1 },
-  { name: 'attachment', maxCount: 1 },
-  { name: 'audio', maxCount: 1 },
-]);
+});
 
 // ROUTES WITH FILES
 app.post("/auth/register", upload.single("picture"), register);
