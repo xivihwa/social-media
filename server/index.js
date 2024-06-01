@@ -8,17 +8,14 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
-import { error } from "console";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
-import fs from 'fs';
-import User from "./models/User.js";
-import Post from "./models/Post.js";
-import { users, posts } from "./data/index.js";
+import multerS3 from "multer-s3";
+import s3 from "./s3.js";
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -31,53 +28,45 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors(
-  {
-    origin: ["https://social-media-client-plum-nine.vercel.app"],
-    methods: ["POST", "GET", "OPTIONS", "HEAD", "PUT", "DELETE", "PATCH"],
-    credentials: true,
-  }
-));
+app.use(cors({
+  origin: ["https://social-media-client-plum-nine.vercel.app"],
+  methods: ["POST", "GET", "OPTIONS", "HEAD", "PUT", "DELETE", "PATCH"],
+  credentials: true,
+}));
 app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
 
 // FILE STORAGE
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/assets");
+const s3Storage = multerS3({
+  s3: s3,
+  bucket: process.env.S3_BUCKET_NAME,
+  metadata: function (req, file, cb) {
+    cb(null, { fieldName: file.fieldname });
   },
-  filename: function (req, file, cb) {
+  key: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
 
 const upload = multer({
-  storage,
+  storage: s3Storage,
   limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: function (req, file, cb) {
-    fs.access(`public/assets/${file.originalname}`, (err) => {
-      if (err) {
-        fs.writeFile(`public/assets/${file.originalname}`, '', (err) => {
-          if (err) {
-            console.error(err);
-            return cb(null, false);
-          }
-          return cb(null, true);
-        });
-      } else {
-        return cb(null, true);
-      }
-    });
+    cb(null, true);
   },
-});
-
+}).fields([
+  { name: 'picture', maxCount: 1 },
+  { name: 'video', maxCount: 1 },
+  { name: 'attachment', maxCount: 1 },
+  { name: 'audio', maxCount: 1 },
+]);
 
 // ROUTES WITH FILES
 app.post("/auth/register", upload.single("picture"), register);
 app.post("/posts", verifyToken, upload.fields([
-  { name: 'picture', maxCount: 1 }, 
-  { name: 'video', maxCount: 1 }, 
+  { name: 'picture', maxCount: 1 },
+  { name: 'video', maxCount: 1 },
   { name: 'attachment', maxCount: 1 },
-  { name: 'audio', maxCount: 1 }
+  { name: 'audio', maxCount: 1 },
 ]), createPost);
 
 // ROUTES

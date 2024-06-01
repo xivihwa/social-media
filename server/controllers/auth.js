@@ -15,7 +15,7 @@ export const register = async (req, res) => {
       occupation,
     } = req.body;
 
-    const picturePath = req.file ? req.file.path.replace('public/', '') : '';
+    const picturePath = req.file ? req.file.location : '';
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);

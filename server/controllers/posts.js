@@ -17,21 +17,21 @@ export const createPost = async (req, res) => {
       likes: {},
       comments: [],
     };
-    
+
     if (req.files.picture) {
-      newPostData.picturePath = req.files.picture[0].path.replace('public/', '');
+      newPostData.picturePath = req.files.picture[0].location;
     }
-    
+
     if (req.files.video) {
-      newPostData.videoPath = req.files.video[0].path.replace('public/', '');
+      newPostData.videoPath = req.files.video[0].location;
     }
 
     if (req.files.attachment) {
-      newPostData.attachmentPath = req.files.attachment[0].path.replace('public/', '');
+      newPostData.attachmentPath = req.files.attachment[0].location;
     }
 
     if (req.files.audio) {
-      newPostData.audioPath = req.files.audio[0].path.replace('public/', '');
+      newPostData.audioPath = req.files.audio[0].location;
     }
     const newPost = new Post(newPostData);
     await newPost.save();
