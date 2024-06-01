@@ -16,6 +16,7 @@ import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
 import multerS3 from "multer-s3";
 import s3 from "./s3.js";
+import fs from "fs";
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -33,6 +34,19 @@ app.use(cors({
   methods: ["POST", "GET", "OPTIONS", "HEAD", "PUT", "DELETE", "PATCH"],
   credentials: true,
 }));
+
+app.use("/assets/:filename", (req, res, next) => {
+  const filePath = path.join(__dirname, "./public/assets", req.params.filename);
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (!err) {
+      res.sendFile(filePath);
+    } else {
+      const s3Url = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${req.params.filename}`;
+      res.redirect(s3Url);
+    }
+  });
+});
+
 app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
 
 // FILE STORAGE
