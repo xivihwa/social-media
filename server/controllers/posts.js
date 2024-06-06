@@ -19,7 +19,7 @@ const uploadFileToS3 = async (file) => {
     await upload.done();
 
     const fileUrl = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${file.originalname}`;
-    return { [file.fieldname]: fileUrl, filename: file.originalname };
+    return { filePath: fileUrl, filename: file.originalname };
   } catch (err) {
     console.error(err);
     return {};
@@ -60,9 +60,11 @@ export const createPost = async (req, res) => {
       }
 
       const results = await Promise.all(promises);
-      newPostData = {...newPostData,...results };
-
-      newPostData.files = results.map((file) => file.filename);
+      results.forEach((result) => {
+        if (result.filePath) {
+          newPostData[`${result.filename}Path`] = result.filePath;
+        }
+      });
     }
 
     const newPost = new Post(newPostData);
