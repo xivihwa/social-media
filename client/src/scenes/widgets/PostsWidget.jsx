@@ -63,8 +63,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             name={`${firstName} ${lastName}`}
             description={description}
             location={location}
-            picturePath={files.first(elem => elem.fileType === "picture").filePath | picturePath}
-            videoPath={files.first(elem => elem.fileType === "video").filePath}
+            picturePath={files.find(elem => elem.fileType === "picture").filePath | picturePath}
+            videoPath={files.find(elem => elem.fileType === "video").filePath}
             attachmentPath={attachmentPath}
             audioPath={audioPath}
             userPicturePath={userPicturePath}
