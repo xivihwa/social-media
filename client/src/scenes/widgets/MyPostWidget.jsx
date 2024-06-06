@@ -73,6 +73,7 @@ import {
       setImage(null);
       setVideo(null);
       setAttachment(null);
+      setAudio(null);
       setPost("");
     };
   

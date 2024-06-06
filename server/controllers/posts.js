@@ -47,28 +47,33 @@ export const createPost = async (req, res) => {
     if (req.files) {
       const files = req.files;
       const promises = [];
+      const fileTypes = [];
       if (files.picture) {
         promises.push(uploadFileToS3(files.picture[0]));
+        fileType.push('picture');
       }
       if (files.video) {
         promises.push(uploadFileToS3(files.video[0]));
+        fileType.push('video');
       }
       if (files.attachment) {
         promises.push(uploadFileToS3(files.attachment[0]));
+        fileType.push('attachment');
       }
       if (files.audio) {
         promises.push(uploadFileToS3(files.audio[0]));
+        fileType.push('audio');
       }
 
       const results = await Promise.all(promises);
-      results.forEach((result) => {
-        if (result.filePath) {
-          newPostData.files.push({
-            filename: result.filename,
-            filePath: result.filePath,
-          });
-        }
-      });
+
+      for(i = 0; i < results.length; i++) {
+        newPostData.files.push({
+          filename: results[i].filename,
+          filePath: results[i].filePath,
+          filerype: fileTypes[i]
+        });
+      }
     }
 
     const newPost = new Post(newPostData);
@@ -120,6 +125,7 @@ export const getUserPosts = async (req, res) => {
     const { userId } = req.params;
     const posts = await Post.find({ userId }).populate('files');
     res.status(200).json(posts);
+    console.log(res);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

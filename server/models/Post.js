@@ -31,6 +31,7 @@ const postSchema = mongoose.Schema(
       createdAt: { type: Date, default: Date.now },
     }],
     files: [{
+      filetype: String,
       filename: String,
       filePath: String,
     }],

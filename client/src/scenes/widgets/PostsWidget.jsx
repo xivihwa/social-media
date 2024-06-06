@@ -54,6 +54,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           userPicturePath,
           likes,
           comments,
+          files
         }) => (
           <PostWidget
             key={_id}
@@ -62,8 +63,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             name={`${firstName} ${lastName}`}
             description={description}
             location={location}
-            picturePath={picturePath}
-            videoPath={videoPath}
+            picturePath={files.first(elem => elem.fileType === "picture").filePath | picturePath}
+            videoPath={files.first(elem => elem.fileType === "video").filePath}
             attachmentPath={attachmentPath}
             audioPath={audioPath}
             userPicturePath={userPicturePath}
