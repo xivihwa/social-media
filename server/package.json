@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@aws-sdk/lib-storage": "^3.591.0",
     "@octokit/rest": "^20.1.1",
     "aws-sdk": "^2.1632.0",
     "bcrypt": "^5.1.1",
