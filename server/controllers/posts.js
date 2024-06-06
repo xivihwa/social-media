@@ -50,19 +50,19 @@ export const createPost = async (req, res) => {
       const fileTypes = [];
       if (files.picture) {
         promises.push(uploadFileToS3(files.picture[0]));
-        fileType.push('picture');
+        fileTypes.push('picture');
       }
       if (files.video) {
         promises.push(uploadFileToS3(files.video[0]));
-        fileType.push('video');
+        fileTypes.push('video');
       }
       if (files.attachment) {
         promises.push(uploadFileToS3(files.attachment[0]));
-        fileType.push('attachment');
+        fileTypes.push('attachment');
       }
       if (files.audio) {
         promises.push(uploadFileToS3(files.audio[0]));
-        fileType.push('audio');
+        fileTypes.push('audio');
       }
 
       const results = await Promise.all(promises);
