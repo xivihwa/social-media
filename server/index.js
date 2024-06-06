@@ -59,13 +59,11 @@ const s3Storage = multerS3({
   key: function (req, file, cb) {
     cb(null, file.originalname);
   },
-  acl: 'public-read',
 });
 
 const upload = multer({
   storage: s3Storage,
   limits: { fileSize: 50 * 1024 * 1024 },
-  acl: 'public-read',
 });
 
 // ROUTES WITH FILES
