@@ -73,7 +73,7 @@ export const createPost = async (req, res) => {
         newPostData.files.push({
           filename: results[i].filename,
           filePath: results[i].filePath,
-          filerype: fileTypes[i]
+          filetype: fileTypes[i]
         });
       }
     }
