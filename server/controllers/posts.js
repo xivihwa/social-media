@@ -67,7 +67,9 @@ export const createPost = async (req, res) => {
 
       const results = await Promise.all(promises);
 
-      for(i = 0; i < results.length; i++) {
+      for(let i = 0; i < results.length; i++) {
+        console.log(results[i].filePath)
+        console.log(fileTypes[i])
         newPostData.files.push({
           filename: results[i].filename,
           filePath: results[i].filePath,
