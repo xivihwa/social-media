@@ -6,7 +6,7 @@ export const createPost = async (req, res) => {
   try {
     const { userId, description } = req.body;
     const user = await User.findById(userId);
-    
+
     let newPostData = {
       userId,
       firstName: user.firstName,
@@ -18,20 +18,20 @@ export const createPost = async (req, res) => {
       comments: [],
     };
 
-    if (req.files.picture) {
-      newPostData.picturePath = req.files.picture[0].location;
-    }
-
-    if (req.files.video) {
-      newPostData.videoPath = req.files.video[0].location;
-    }
-
-    if (req.files.attachment) {
-      newPostData.attachmentPath = req.files.attachment[0].location;
-    }
-
-    if (req.files.audio) {
-      newPostData.audioPath = req.files.audio[0].location;
+    if (req.files) {
+      const files = req.files;
+      if (files.picture) {
+        newPostData.picturePath = files.picture[0].location;
+      }
+      if (files.video) {
+        newPostData.videoPath = files.video[0].location;
+      }
+      if (files.attachment) {
+        newPostData.attachmentPath = files.attachment[0].location;
+      }
+      if (files.audio) {
+        newPostData.audioPath = files.audio[0].location;
+      }
     }
     const newPost = new Post(newPostData);
     await newPost.save();
