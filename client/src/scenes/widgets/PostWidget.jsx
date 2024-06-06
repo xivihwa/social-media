@@ -83,7 +83,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`https://social-media-server-flax.vercel.app/assets/${picturePath}`}
+          src={picturePath.startsWith('https://awssocialmedia.s3.eu-north-1.amazonaws.com/') ? picturePath : `https://social-media-server-flax.vercel.app/assets/${picturePath}`}
         />
       )}
       {videoPath && (
@@ -92,7 +92,7 @@ const PostWidget = ({
           width="100%"
           height="auto"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`https://social-media-server-flax.vercel.app/assets/${videoPath}`} 
+          src={videoPath.startsWith('https://awssocialmedia.s3.eu-north-1.amazonaws.com/') ? videoPath : `https://social-media-server-flax.vercel.app/assets/${videoPath}`}
         />
       )}
       {attachmentPath && (
@@ -103,7 +103,7 @@ const PostWidget = ({
         >
           <AttachmentOutlined sx={{ marginRight: "0.5rem", transform: "rotate(270deg)" }} />
           <a
-            href={`https://social-media-server-flax.vercel.app/assets/${attachmentPath}`}
+            href={attachmentPath.startsWith('https://awssocialmedia.s3.eu-north-1.amazonaws.com/') ? attachmentPath : `https://social-media-server-flax.vercel.app/assets/${attachmentPath}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -114,7 +114,7 @@ const PostWidget = ({
       {audioPath && (
         <Box>
           <audio controls style={{ width: "100%" }}>
-            <source src={`https://social-media-server-flax.vercel.app/assets/${audioPath}`} type="audio/mp3" />
+            <source src={audioPath.startsWith('https://awssocialmedia.s3.eu-north-1.amazonaws.com/') ? audioPath : `https://social-media-server-flax.vercel.app/assets/${audioPath}`} type="audio/mp3" />
           </audio>
         </Box>
       )}
