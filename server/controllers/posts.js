@@ -1,5 +1,22 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import s3 from "../s3.js";
+
+const uploadFileToS3 = async (file) => {
+  const s3Params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: file.originalname,
+    Body: file.buffer,
+  };
+
+  try {
+    const data = await s3.upload(s3Params).promise();
+    return { [file.fieldname]: data.Location };
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+};
 
 // CREATE
 export const createPost = async (req, res) => {
@@ -20,19 +37,24 @@ export const createPost = async (req, res) => {
 
     if (req.files) {
       const files = req.files;
+      const promises = [];
       if (files.picture) {
-        newPostData.picturePath = files.picture[0].location;
+        promises.push(uploadFileToS3(files.picture[0]));
       }
       if (files.video) {
-        newPostData.videoPath = files.video[0].location;
+        promises.push(uploadFileToS3(files.video[0]));
       }
       if (files.attachment) {
-        newPostData.attachmentPath = files.attachment[0].location;
+        promises.push(uploadFileToS3(files.attachment[0]));
       }
       if (files.audio) {
-        newPostData.audioPath = files.audio[0].location;
+        promises.push(uploadFileToS3(files.audio[0]));
       }
+
+      const results = await Promise.all(promises);
+      newPostData = {...newPostData,...results };
     }
+
     const newPost = new Post(newPostData);
     await newPost.save();
 
