@@ -62,7 +62,7 @@ const s3Storage = multerS3({
 });
 
 const upload = multer({
-  storage: s3Storage(),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
