@@ -61,13 +61,18 @@ const s3Storage = multerS3({
   },
 });
 
-const upload = multer({
+const uploadRegister = multer({
   storage: s3Storage,
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
+
 // ROUTES WITH FILES
-app.post("/auth/register", upload.single("picture"), register);
+app.post("/auth/register", uploadRegister.single("picture"), register);
 app.post("/posts", verifyToken, upload.fields([
   { name: 'picture', maxCount: 1 },
   { name: 'video', maxCount: 1 },
