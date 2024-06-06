@@ -30,6 +30,10 @@ const postSchema = mongoose.Schema(
       userId: String,
       createdAt: { type: Date, default: Date.now },
     }],
+    files: [{
+      filename: String,
+      filePath: String,
+    }],
   },
   {
     timestamps: {
