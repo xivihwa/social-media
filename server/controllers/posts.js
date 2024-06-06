@@ -41,6 +41,7 @@ export const createPost = async (req, res) => {
       userPicturePath: user.picturePath,
       likes: {},
       comments: [],
+      files: [], 
     };
 
     if (req.files) {
@@ -62,7 +63,10 @@ export const createPost = async (req, res) => {
       const results = await Promise.all(promises);
       results.forEach((result) => {
         if (result.filePath) {
-          newPostData[`${result.filename}Path`] = result.filePath;
+          newPostData.files.push({
+            filename: result.filename,
+            filePath: result.filePath,
+          });
         }
       });
     }
@@ -104,8 +108,8 @@ export const createComment = async (req, res) => {
 // READ
 export const getFeedPosts = async (req, res) => {
   try {
-    const post = await Post.find();
-    res.status(200).json(post);
+    const posts = await Post.find().populate('files');
+    res.status(200).json(posts);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -114,8 +118,8 @@ export const getFeedPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
-    const post = await Post.find({ userId });
-    res.status(200).json(post);
+    const posts = await Post.find({ userId }).populate('files');
+    res.status(200).json(posts);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
