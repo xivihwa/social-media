@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 import s3 from "../s3.js";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 const uploadFileToS3 = async (file) => {
   const s3Params = {
@@ -10,8 +11,10 @@ const uploadFileToS3 = async (file) => {
   };
 
   try {
-    const data = await s3.upload(s3Params).promise();
-    return { [file.fieldname]: data.Location };
+    const command = new PutObjectCommand(s3Params);
+    const data = await s3.send(command);
+    const fileUrl = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${file.originalname}`;
+    return { [file.fieldname]: fileUrl };
   } catch (err) {
     console.error(err);
     return {};
