@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
 const UserImage = ({ image, size = "60px" }) => {
-  const isS3Image = image.startsWith('https://awssocialmedia.s3.eu-north-1.amazonaws.com/');
+  const isS3Image = image && image.startsWith('https://awssocialmedia.s3.eu-north-1.amazonaws.com/');
 
   return (
     <Box width={size} height={size}>
